@@ -1,0 +1,24 @@
+body {
+    display: flex;
+    flex-flow: column;
+}
+
+.button {
+    align-self: center;
+    margin-bottom: 10px;
+    width: fit-content;
+}
+
+.grid {
+    display: grid;
+    align-self: center;
+    height: 90vh;
+    width: 90vh;
+    border: black solid 1px;
+}
+
+div[class^="cell"]{
+    background-color: white;
+    border: black solid 1px;
+    text-align: center;
+}
