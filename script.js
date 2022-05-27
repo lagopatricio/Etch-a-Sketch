@@ -1,8 +1,6 @@
 let gridSize;
 let cell;
-let hoverFirst = true;
-let num = 2;
-let lala = "brightness" + ` ${100 - num}`;
+let cells = {};
 
 const button = document.createElement("button");
 button.classList.add("button");
@@ -12,8 +10,6 @@ document.body.appendChild(button);
 const grid = document.createElement("div");
 grid.classList.add("grid");
 document.body.appendChild(grid);
-
-let cell1 = document.getElementsByClassName("cell cell1");
 
 button.addEventListener("click", function(gridSizing){
     gridSize = prompt ("Please input number of squares per side.");
@@ -27,32 +23,23 @@ button.addEventListener("click", function(gridSizing){
                     cell = document.createElement("div");
                     cell.classList.add("cell");
                     cell.classList.add(`cell${i}`);
+                    cells[cell.classList] = {wasHovered : false,};
                     grid.appendChild(cell);
                 }
                 grid.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
                 grid.style.gridTemplateRows = `repeat(${gridSize}, 1fr)`;
                 document.querySelectorAll(".cell").forEach(function (cellSelect) {
                     cellSelect.addEventListener("mouseenter", function (cellHover) {
-                        if (window.getComputedStyle(cellSelect).backgroundColor === "rgb(255, 255, 255)"){
+                        if (cells[cellSelect.classList]["wasHovered"] === false){
                             cellSelect.style.backgroundColor = `rgb(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)})`;
                             cellSelect.style.filter = "brightness(1)";
-                            console.log(window.getComputedStyle(cellSelect).filter);
+                            cells[cellSelect.classList]["wasHovered"] = true;
+                            cells[cellSelect.classList]["brightness"] = 1;
                         }   else
-                            if (window.getComputedStyle(cellSelect).filter === "brightness(1)"){
-                                cellSelect.style.filter = "brightness(0.8)";
-                            }   else
-                                if (window.getComputedStyle(cellSelect).filter === "brightness(0.8)"){
-                                    cellSelect.style.filter = "brightness(0.6)";
-                                }   else
-                                    if (window.getComputedStyle(cellSelect).filter === "brightness(0.6)"){
-                                        cellSelect.style.filter = "brightness(0.4)";
-                                    }   else
-                                        if (window.getComputedStyle(cellSelect).filter === "brightness(0.4)"){
-                                            cellSelect.style.filter = "brightness(0.2)";
-                                        }   else
-                                            if (window.getComputedStyle(cellSelect).filter === "brightness(0.2)"){
-                                                cellSelect.style.filter = "brightness(0)";
-                                            }
+                            if (cells[cellSelect.classList]["brightness"] !== 0){
+                                cellSelect.style.filter = `brightness(${Math.round(((cells[cellSelect.classList]["brightness"]) - 0.2) * 10) / 10})`;
+                                cells[cellSelect.classList]["brightness"] = Math.round(((cells[cellSelect.classList]["brightness"]) - 0.2) * 10) /10;
+                        }
                     });
                 });
             }   else
@@ -69,4 +56,20 @@ button.addEventListener("click", function(gridSizing){
 
 
 
-
+/*
+if (window.getComputedStyle(cellSelect).filter === "brightness(1)"){
+    cellSelect.style.filter = "brightness(0.8)";
+}   else
+    if (window.getComputedStyle(cellSelect).filter === "brightness(0.8)"){
+        cellSelect.style.filter = "brightness(0.6)";
+    }   else
+        if (window.getComputedStyle(cellSelect).filter === "brightness(0.6)"){
+            cellSelect.style.filter = "brightness(0.4)";
+        }   else
+            if (window.getComputedStyle(cellSelect).filter === "brightness(0.4)"){
+                cellSelect.style.filter = "brightness(0.2)";
+            }   else
+                if (window.getComputedStyle(cellSelect).filter === "brightness(0.2)"){
+                    cellSelect.style.filter = "brightness(0)";
+                }
+*/                
